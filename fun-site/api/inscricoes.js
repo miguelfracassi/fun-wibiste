@@ -3,10 +3,16 @@
 // GET  -> lista todas as inscrições (usado pela página escondida /acess-adm),
 //         só funciona com o header "x-admin-key" batendo com a env var ADMIN_KEY.
 //
-// Armazenamento: Vercel KV (Redis gerenciado pela Vercel).
+// Armazenamento: Upstash Redis (integração nativa da Vercel, Storage → Marketplace → Upstash).
+// A integração cria variáveis com prefixo KV_ (compatibilidade com o antigo Vercel KV),
+// por isso apontamos o cliente pra elas manualmente em vez de usar Redis.fromEnv().
 // Veja o arquivo LEIA-ME-ADMIN.md na raiz do projeto para o passo a passo de configuração.
 
-const { kv } = require("@vercel/kv");
+const { Redis } = require("@upstash/redis");
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL,
+  token: process.env.KV_REST_API_TOKEN,
+});
 
 const CHAVE_LISTA = "inscricoes-expo-fun";
 
@@ -32,7 +38,7 @@ module.exports = async (req, res) => {
     inscricao.criadoEm = new Date().toISOString();
 
     try {
-      await kv.rpush(CHAVE_LISTA, JSON.stringify(inscricao));
+      await redis.rpush(CHAVE_LISTA, JSON.stringify(inscricao));
       return res.status(200).json({ ok: true });
     } catch (err) {
       console.error("Erro ao salvar inscrição:", err);
@@ -52,7 +58,7 @@ module.exports = async (req, res) => {
     }
 
     try {
-      const bruto = await kv.lrange(CHAVE_LISTA, 0, -1);
+      const bruto = await redis.lrange(CHAVE_LISTA, 0, -1);
       const inscricoes = bruto
         .map((item) => {
           try {
