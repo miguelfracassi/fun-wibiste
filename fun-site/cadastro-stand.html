@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cadastro de Stand</title>
+<meta name="description" content="Garanta o stand da sua empresa na Expo Fun. Preencha os dados e nossa equipe entra em contato.">
+<link rel="icon" href="assets/fun-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .form-wrap{ max-width: 620px; margin: 0 auto; }
+  .form-card{
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius-blob);
+    padding: 44px;
+    box-shadow: var(--shadow-card);
+  }
+  .field{ margin-bottom: 20px; }
+  .field label{
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 14.5px;
+    margin-bottom: 8px;
+  }
+  .field input{
+    width: 100%;
+    font-family: var(--font-body);
+    font-size: 16px;
+    padding: 13px 16px;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    background: var(--paper-wash);
+    color: var(--ink);
+  }
+  .field input:focus{
+    outline: 3px solid var(--cyan);
+    outline-offset: 2px;
+    background: var(--paper);
+  }
+  .field small{ display:block; margin-top:6px; color: var(--ink-soft); font-size: 13px; }
+  .form-submit{ width: 100%; justify-content: center; margin-top: 6px; }
+  .form-msg{
+    display:none;
+    margin-top: 18px;
+    padding: 14px 18px;
+    border: 2px solid var(--ink);
+    border-radius: 14px;
+    font-size: 14.5px;
+  }
+  .form-msg.ok{ background: var(--lime); }
+  .form-msg.err{ background: var(--pink); color: #fff; }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <img src="assets/fun-logo.png" alt="Fun">
+      Fun
+    </a>
+    <nav class="main-nav">
+      <a href="index.html">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="apoie.html">Apoie</a>
+    </nav>
+    <div class="header-cta">
+      <button class="nav-toggle" aria-label="Abrir menu">☰</button>
+      <a class="btn btn-primary" href="https://discord.gg/fx4RdkPPvT" target="_blank" rel="noopener">Entrar no Discord</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero bg-wash">
+  <div class="wrap text-center">
+    <span class="tag" style="background: var(--orange);">Expo Fun</span>
+    <h1 style="max-width: none; margin: 0 auto;">Garanta o stand da sua empresa na Expo Fun</h1>
+    <p style="margin: 0 auto;">Preencha os dados abaixo e nossa equipe entra em contato pelo WhatsApp pra confirmar a reserva e passar os próximos passos.</p>
+  </div>
+</section>
+
+<section>
+  <div class="wrap form-wrap">
+    <form class="form-card" id="stand-form" novalidate>
+      <div class="field">
+        <label for="empresa">Nome da empresa</label>
+        <input type="text" id="empresa" name="empresa" placeholder="Ex: Estúdio ABC Games" required>
+      </div>
+      <div class="field">
+        <label for="representante">Representante</label>
+        <input type="text" id="representante" name="representante" placeholder="Nome de quem vai representar a empresa" required>
+      </div>
+      <div class="field">
+        <label for="whatsapp">WhatsApp</label>
+        <input type="tel" id="whatsapp" name="whatsapp" placeholder="(11) 91234-5678" required>
+        <small>Com DDD, é por aqui que vamos confirmar o stand.</small>
+      </div>
+      <div class="field">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" placeholder="contato@suaempresa.com" required>
+      </div>
+      <button type="submit" class="btn btn-primary form-submit">Quero meu stand na Expo Fun</button>
+      <div class="form-msg" id="form-msg"></div>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <img class="footer-watermark" src="assets/ticord-logo.png" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="assets/fun-logo.png" alt="Fun">
+          <span>Fun</span>
+        </div>
+        <p>Eventos no Roblox, do roteiro ao dia em que todo mundo entra no jogo.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Site</h5>
+        <a href="index.html">Início</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="apoie.html">Apoie</a>
+      </div>
+      <div class="footer-col">
+        <h5>Comunidade</h5>
+        <a href="https://discord.gg/fx4RdkPPvT" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <div class="footer-col">
+        <h5>Grupo Ticord</h5>
+        <a href="https://somos.ticord.website" target="_blank" rel="noopener">Site Oficial da Administradora</a>
+        <a href="apoie.html">Apoie o projeto</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Grupo Ticord. Todos os direitos reservados.</span>
+      <span class="footer-managed">Administrado por <img src="assets/ticord-logo.png" alt="Grupo Ticord"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+document.getElementById("stand-form").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const form = e.target;
+  const msg = document.getElementById("form-msg");
+  const btn = form.querySelector("button[type=submit]");
+
+  const payload = {
+    empresa: form.empresa.value.trim(),
+    representante: form.representante.value.trim(),
+    whatsapp: form.whatsapp.value.trim(),
+    email: form.email.value.trim(),
+  };
+
+  if (!payload.empresa || !payload.representante || !payload.whatsapp || !payload.email) {
+    msg.textContent = "Preenche todos os campos pra gente conseguir te chamar.";
+    msg.className = "form-msg err";
+    msg.style.display = "block";
+    return;
+  }
+
+  btn.disabled = true;
+  const textoOriginal = btn.textContent;
+  btn.textContent = "Enviando...";
+
+  try {
+    const res = await fetch("/api/inscricoes", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) throw new Error("Falha no envio");
+
+    msg.textContent = "Inscrição recebida! Em breve chamamos você no WhatsApp pra confirmar o stand.";
+    msg.className = "form-msg ok";
+    msg.style.display = "block";
+    form.reset();
+  } catch (err) {
+    msg.textContent = "Não deu pra enviar agora. Tenta de novo em instantes ou chama a gente no Discord.";
+    msg.className = "form-msg err";
+    msg.style.display = "block";
+  } finally {
+    btn.disabled = false;
+    btn.textContent = textoOriginal;
+  }
+});
+</script>
+</body>
+</html>

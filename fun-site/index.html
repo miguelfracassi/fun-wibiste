@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Página Inicial</title>
+<meta name="description" content="A Fun cria eventos no Roblox: torneios, lançamentos e encontros para a sua comunidade brilhar.">
+<link rel="icon" href="assets/fun-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .stand-overlay{
+    position: fixed;
+    inset: 0;
+    background: rgba(23,18,58,0.55);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    z-index: 200;
+    padding: 20px;
+  }
+  .stand-overlay.is-open{ display: flex; }
+  .stand-modal{
+    position: relative;
+    width: 100%;
+    max-width: 720px;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius-blob);
+    box-shadow: 8px 10px 0 rgba(23,18,58,0.35);
+    padding: 40px 44px;
+    display: grid;
+    grid-template-columns: 1fr 1.15fr;
+    align-items: center;
+    gap: 12px;
+  }
+  .stand-modal-close{
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: #fff;
+    border: 3px solid var(--ink);
+    font-family: var(--font-display);
+    font-size: 18px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 3px 4px 0 rgba(23,18,58,0.35);
+  }
+  .stand-modal-close:hover{ transform: translate(-1px,-1px); }
+  .stand-modal-img{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .stand-modal-img img{ width: 100%; max-width: 220px; height: auto; }
+  .stand-modal-body .tag{
+    display: inline-block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 12.5px;
+    padding: 5px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    background: var(--orange);
+    margin-bottom: 14px;
+  }
+  .stand-modal-body h2{ font-size: 26px; margin-bottom: 12px; }
+  .stand-modal-body p{ color: var(--ink-soft); font-size: 15px; margin-bottom: 22px; }
+  .stand-modal-body .btn{ box-shadow: 3px 4px 0 var(--ink); }
+
+  @media (max-width: 640px){
+    .stand-modal{ grid-template-columns: 1fr; padding: 34px 26px; text-align: center; }
+    .stand-modal-img img{ max-width: 150px; }
+    .stand-modal-body .btn{ width: 100%; justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<div class="stand-overlay" id="stand-overlay">
+  <div class="stand-modal">
+    <button class="stand-modal-close" id="stand-modal-close" aria-label="Fechar">✕</button>
+    <div class="stand-modal-img">
+      <img src="assets/stand-popup-phone.png" alt="Formulário de cadastro de stand no celular">
+    </div>
+    <div class="stand-modal-body">
+      <span class="tag">Expo Fun</span>
+      <h2>Inscrições Abertas para Stands</h2>
+      <p>Sua empresa dentro da Expo Fun. Garanta seu espaço, apareça pra toda a comunidade e feche negócio direto com quem joga. As vagas são limitadas!</p>
+      <a class="btn btn-primary" href="cadastro-stand.html">Quero meu stand</a>
+    </div>
+  </div>
+</div>
+
+<header class="site-header">
+  <div class="wrap">
+    <a href="index.html" class="brand">
+      <img src="assets/fun-logo.png" alt="Fun">
+      Fun
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Início</a>
+      <a href="sobre.html">Sobre</a>
+      <a href="eventos.html">Eventos</a>
+      <a href="apoie.html">Apoie</a>
+    </nav>
+    <div class="header-cta">
+      <button class="nav-toggle" aria-label="Abrir menu">☰</button>
+      <a class="btn btn-primary" href="https://discord.gg/fx4RdkPPvT" target="_blank" rel="noopener">Entrar no Discord</a>
+    </div>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <h1>A gente cria os eventos que sua galera vai comentar no Roblox.</h1>
+      <p class="lede">A Fun monta torneios, lançamentos e encontros dentro do Roblox, do roteiro até a hora que todo mundo entra no jogo. Você cuida da sua comunidade, a gente cuida do evento.</p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="https://discord.gg/fx4RdkPPvT" target="_blank" rel="noopener">Entrar no Discord</a>
+        <a class="btn btn-secondary" href="eventos.html">Ver os eventos</a>
+      </div>
+    </div>
+    <div class="stud-field" aria-hidden="true">
+      <div class="stud" style="width:64px; height:64px; left:10%; top:8%; background: var(--pink);"></div>
+      <div class="stud" style="width:40px; height:40px; left:42%; top:2%; background: var(--yellow); animation-delay: .4s;"></div>
+      <div class="stud" style="width:90px; height:90px; left:30%; top:30%; background: var(--cyan); animation-delay: .9s;"></div>
+      <div class="stud" style="width:54px; height:54px; left:66%; top:14%; background: var(--lime); animation-delay: 1.3s;"></div>
+      <div class="stud" style="width:120px; height:120px; left:52%; top:46%; background: var(--teal); animation-delay: .6s;"></div>
+      <div class="stud" style="width:46px; height:46px; left:18%; top:60%; background: var(--orange); animation-delay: 1.6s;"></div>
+      <div class="stud" style="width:70px; height:70px; left:74%; top:56%; background: var(--pink); animation-delay: 2s;"></div>
+      <div class="stud" style="width:34px; height:34px; left:6%; top:36%; background: var(--cyan); animation-delay: .2s;"></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="section-head">
+      <h2>O que a Fun coloca em pé</h2>
+      <p>Cada evento tem cara própria, mas passa pela mesma esteira: ideia, construção no jogo, divulgação e um dia cheio de gente jogando.</p>
+    </div>
+    <div class="card-grid">
+      <div class="blob-card">
+        <div class="icon-block" style="background: var(--pink);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 2L2 7l10 5 10-5-10-5z" stroke="#17123A" stroke-width="2" stroke-linejoin="round"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5" stroke="#17123A" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Torneios</h3>
+        <p>Chaves, ranking ao vivo e premiação, do simulador mais caótico ao jogo competitivo mais sério da sua base.</p>
+      </div>
+      <div class="blob-card">
+        <div class="icon-block" style="background: var(--cyan);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="7" height="7" stroke="#17123A" stroke-width="2"/><rect x="13" y="4" width="7" height="7" stroke="#17123A" stroke-width="2"/><rect x="4" y="13" width="7" height="7" stroke="#17123A" stroke-width="2"/><rect x="13" y="13" width="7" height="7" stroke="#17123A" stroke-width="2"/></svg>
+        </div>
+        <h3>Lançamentos</h3>
+        <p>Estreia de jogo ou de update grande, com contagem regressiva, teaser e um servidor lotado no minuto um.</p>
+      </div>
+      <div class="blob-card">
+        <div class="icon-block" style="background: var(--lime);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="#17123A" stroke-width="2"/><path d="M4 21c0-4 3.6-7 8-7s8 3 8 7" stroke="#17123A" stroke-width="2"/></svg>
+        </div>
+        <h3>Encontros</h3>
+        <p>Espaço pra comunidade se ver, tirar print junto e conhecer quem só existia no chat.</p>
+      </div>
+      <div class="blob-card">
+        <div class="icon-block" style="background: var(--yellow);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" stroke="#17123A" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Divulgação de marca</h3>
+        <p>Ativação dentro do Roblox pra marca ou jogo que quer aparecer onde a audiência já está jogando.</p>
+      </div>
+      <div class="blob-card">
+        <div class="icon-block" style="background: var(--orange);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 4h16v12H7l-3 4V4z" stroke="#17123A" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Cobertura ao vivo</h3>
+        <p>Narração, telão de resultados e atualização em tempo real pra quem está assistindo de fora do jogo.</p>
+      </div>
+      <div class="blob-card">
+        <div class="icon-block" style="background: var(--teal);">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M4 12l6 6L20 6" stroke="#17123A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Do zero ao pronto</h3>
+        <p>Roteiro, build no Studio, moderação do dia e relatório de como foi. Você acompanha cada etapa.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="bg-wash">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Como funciona</h2>
+      <p>Quatro passos entre a sua ideia e a sua comunidade dentro do jogo.</p>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h4>Contamos o que você quer</h4>
+        <p>Chamada rápida pra entender jogo, comunidade e data.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h4>Montamos o roteiro</h4>
+        <p>Formato do evento, mapa, regras e cronograma do dia.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h4>Construímos no Studio</h4>
+        <p>Cenário, sistemas e testes até tudo rodar redondo.</p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <h4>O evento acontece</h4>
+        <p>Equipe na moderação, narração e suporte em tempo real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap">
+    <div class="stat-strip">
+      <div>
+        <strong>+40</strong>
+        <span>eventos organizados</span>
+      </div>
+      <div>
+        <strong>+120k</strong>
+        <span>jogadores impactados</span>
+      </div>
+      <div>
+        <strong>+18</strong>
+        <span>jogos parceiros</span>
+      </div>
+      <div>
+        <strong>4</strong>
+        <span>formatos de evento</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-tight">
+  <div class="wrap">
+    <div class="discord-strip">
+      <div class="icon-block" style="background: var(--pink); width:56px; height:56px; border-radius: 16px;">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M18 6c-3-1.5-8-1.5-12 0-1.2 3-1.5 6-1 9 2 1.5 4 2 4 2l.8-1.4M6 15s2 .5 4 .5 4-.5 4-.5M18 6c1.2 3 1.5 6 1 9-2 1.5-4 2-4 2l-.8-1.4" stroke="#17123A" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="12" r="1.2" fill="#17123A"/><circle cx="15" cy="12" r="1.2" fill="#17123A"/></svg>
+      </div>
+      <div style="flex:1;">
+        <h3 style="margin-bottom:4px; font-size:19px;">Todo evento novo é avisado primeiro no Discord</h3>
+        <p style="margin:0; color: var(--ink-soft); font-size:15px;">Entra pra saber a data antes de todo mundo e acompanhar os bastidores de cada evento.</p>
+      </div>
+      <a class="btn btn-dark" href="https://discord.gg/fx4RdkPPvT" target="_blank" rel="noopener">Entrar</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <div class="cta-banner" style="background: var(--yellow);">
+      <div>
+        <h2>Bora colocar seu evento em pé?</h2>
+        <p>Conta pra gente o que você tem em mente e a gente monta o resto.</p>
+      </div>
+      <a class="btn btn-dark" href="eventos.html">Ver formatos de evento</a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <img class="footer-watermark" src="assets/ticord-logo.png" alt="" aria-hidden="true">
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <img src="assets/fun-logo.png" alt="Fun">
+          <span>Fun</span>
+        </div>
+        <p>Eventos no Roblox, do roteiro ao dia em que todo mundo entra no jogo.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Site</h5>
+        <a href="index.html">Início</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="eventos.html">Eventos</a>
+        <a href="apoie.html">Apoie</a>
+      </div>
+      <div class="footer-col">
+        <h5>Comunidade</h5>
+        <a href="https://discord.gg/fx4RdkPPvT" target="_blank" rel="noopener">Discord</a>
+      </div>
+      <div class="footer-col">
+        <h5>Grupo Ticord</h5>
+        <a href="https://somos.ticord.website" target="_blank" rel="noopener">Site Oficial da Administradora</a>
+        <a href="apoie.html">Apoie o projeto</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Grupo Ticord. Todos os direitos reservados.</span>
+      <span class="footer-managed">Administrado por <img src="assets/ticord-logo.png" alt="Grupo Ticord"></span>
+    </div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const overlay = document.getElementById("stand-overlay");
+  const closeBtn = document.getElementById("stand-modal-close");
+  const JA_MOSTROU = "stand-popup-mostrado";
+
+  if (overlay && !sessionStorage.getItem(JA_MOSTROU)) {
+    setTimeout(() => {
+      overlay.classList.add("is-open");
+      sessionStorage.setItem(JA_MOSTROU, "1");
+    }, 600);
+  }
+
+  function fechar() {
+    overlay.classList.remove("is-open");
+  }
+
+  if (closeBtn) closeBtn.addEventListener("click", fechar);
+  if (overlay) {
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) fechar();
+    });
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") fechar();
+  });
+});
+</script>
+</body>
+</html>

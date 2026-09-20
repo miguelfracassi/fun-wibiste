@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Painel de Inscrições</title>
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/fun-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  body{ background: var(--paper-wash); }
+  .adm-wrap{ max-width: 980px; margin: 0 auto; padding: 56px 28px; }
+  .gate-card{
+    max-width: 420px;
+    margin: 80px auto;
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: var(--radius-blob);
+    padding: 40px;
+    text-align: center;
+    box-shadow: var(--shadow-card);
+  }
+  .gate-card input{
+    width: 100%;
+    font-size: 16px;
+    padding: 13px 16px;
+    border: 3px solid var(--ink);
+    border-radius: 14px;
+    background: var(--paper-wash);
+    margin: 18px 0;
+  }
+  .gate-card .btn{ width: 100%; justify-content: center; }
+  .gate-err{ color: var(--pink); font-size: 14px; font-weight: 700; display: none; margin-top: -6px; margin-bottom: 12px; }
+
+  .adm-header{ display:flex; align-items:center; justify-content: space-between; gap: 16px; margin-bottom: 28px; flex-wrap: wrap; }
+  .adm-header h1{ font-size: 26px; margin: 0; }
+  .adm-actions{ display:flex; gap: 10px; }
+  .adm-actions .btn{ padding: 10px 18px; font-size: 14px; box-shadow: 3px 4px 0 var(--ink); }
+
+  .table-card{
+    background: var(--paper);
+    border: 3px solid var(--ink);
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--shadow-card);
+  }
+  table{ width: 100%; border-collapse: collapse; font-size: 14.5px; }
+  thead{ background: var(--ink); color: #fff; }
+  th, td{ text-align: left; padding: 14px 18px; }
+  tbody tr{ border-top: 2px solid var(--paper-wash); }
+  tbody tr:nth-child(even){ background: var(--paper-wash); }
+  td a{ color: var(--pink); font-weight: 700; }
+  .empty, .loading{ text-align: center; padding: 60px 20px; color: var(--ink-soft); }
+  .count-tag{
+    display:inline-block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 13px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    background: var(--lime);
+  }
+</style>
+</head>
+<body>
+
+<div id="gate" class="gate-card">
+  <h2>Painel de Inscrições</h2>
+  <p style="color: var(--ink-soft); font-size: 14.5px;">Digite a chave de acesso pra ver as inscrições da Expo Fun.</p>
+  <div class="gate-err" id="gate-err">Chave incorreta. Tenta de novo.</div>
+  <input type="password" id="gate-key" placeholder="Chave de acesso" autocomplete="off">
+  <button class="btn btn-primary" id="gate-btn">Entrar</button>
+</div>
+
+<div class="adm-wrap" id="panel" style="display:none;">
+  <div class="adm-header">
+    <h1>Inscrições · Expo Fun <span class="count-tag" id="count-tag">0</span></h1>
+    <div class="adm-actions">
+      <button class="btn btn-secondary" id="btn-refresh">Atualizar</button>
+      <button class="btn btn-secondary" id="btn-csv">Exportar CSV</button>
+      <button class="btn btn-dark" id="btn-sair">Sair</button>
+    </div>
+  </div>
+
+  <div class="table-card">
+    <div id="conteudo" class="loading">Carregando inscrições...</div>
+  </div>
+</div>
+
+<script>
+const SESSION_KEY = "expo-fun-admin-key";
+let inscricoesAtuais = [];
+
+const gate = document.getElementById("gate");
+const panel = document.getElementById("panel");
+const gateKeyInput = document.getElementById("gate-key");
+const gateErr = document.getElementById("gate-err");
+const conteudo = document.getElementById("conteudo");
+const countTag = document.getElementById("count-tag");
+
+async function carregar(chave) {
+  conteudo.className = "loading";
+  conteudo.textContent = "Carregando inscrições...";
+
+  try {
+    const res = await fetch("/api/inscricoes", {
+      headers: { "x-admin-key": chave },
+    });
+
+    if (res.status === 401) {
+      gateErr.style.display = "block";
+      sessionStorage.removeItem(SESSION_KEY);
+      panel.style.display = "none";
+      gate.style.display = "block";
+      return false;
+    }
+
+    if (!res.ok) throw new Error("Falha ao carregar");
+
+    const data = await res.json();
+    inscricoesAtuais = data.inscricoes || [];
+    renderizarTabela();
+    return true;
+  } catch (err) {
+    conteudo.className = "empty";
+    conteudo.textContent = "Não foi possível carregar as inscrições agora.";
+    return false;
+  }
+}
+
+function renderizarTabela() {
+  countTag.textContent = inscricoesAtuais.length;
+
+  if (inscricoesAtuais.length === 0) {
+    conteudo.className = "empty";
+    conteudo.textContent = "Nenhuma inscrição recebida ainda.";
+    return;
+  }
+
+  const linhas = inscricoesAtuais.map((i) => {
+    const numeroWhats = (i.whatsapp || "").replace(/\D/g, "");
+    const data = i.criadoEm ? new Date(i.criadoEm).toLocaleString("pt-BR") : "-";
+    return `<tr>
+      <td>${escapeHtml(i.empresa)}</td>
+      <td>${escapeHtml(i.representante)}</td>
+      <td><a href="https://wa.me/55${numeroWhats}" target="_blank" rel="noopener">${escapeHtml(i.whatsapp)}</a></td>
+      <td>${escapeHtml(i.email)}</td>
+      <td>${data}</td>
+    </tr>`;
+  }).join("");
+
+  conteudo.className = "";
+  conteudo.innerHTML = `<table>
+    <thead>
+      <tr><th>Empresa</th><th>Representante</th><th>WhatsApp</th><th>Email</th><th>Recebido em</th></tr>
+    </thead>
+    <tbody>${linhas}</tbody>
+  </table>`;
+}
+
+function escapeHtml(str) {
+  return String(str || "").replace(/[&<>"']/g, (c) => ({
+    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+  }[c]));
+}
+
+function exportarCsv() {
+  if (inscricoesAtuais.length === 0) return;
+  const cabecalho = ["Empresa", "Representante", "WhatsApp", "Email", "Recebido em"];
+  const linhas = inscricoesAtuais.map((i) => [
+    i.empresa, i.representante, i.whatsapp, i.email,
+    i.criadoEm ? new Date(i.criadoEm).toLocaleString("pt-BR") : "",
+  ]);
+  const csv = [cabecalho, ...linhas]
+    .map((linha) => linha.map((v) => `"${String(v || "").replace(/"/g, '""')}"`).join(","))
+    .join("\n");
+  const blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "inscricoes-expo-fun.csv";
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+async function tentarEntrar(chave) {
+  gateErr.style.display = "none";
+  const ok = await carregar(chave);
+  if (ok) {
+    sessionStorage.setItem(SESSION_KEY, chave);
+    gate.style.display = "none";
+    panel.style.display = "block";
+  }
+}
+
+document.getElementById("gate-btn").addEventListener("click", () => {
+  const chave = gateKeyInput.value.trim();
+  if (chave) tentarEntrar(chave);
+});
+gateKeyInput.addEventListener("keydown", (e) => {
+  if (e.key === "Enter") document.getElementById("gate-btn").click();
+});
+
+document.getElementById("btn-refresh").addEventListener("click", () => {
+  const chave = sessionStorage.getItem(SESSION_KEY);
+  if (chave) carregar(chave);
+});
+document.getElementById("btn-csv").addEventListener("click", exportarCsv);
+document.getElementById("btn-sair").addEventListener("click", () => {
+  sessionStorage.removeItem(SESSION_KEY);
+  panel.style.display = "none";
+  gate.style.display = "block";
+  gateKeyInput.value = "";
+});
+
+// Se já tiver chave salva nesta aba, tenta entrar direto.
+const chaveSalva = sessionStorage.getItem(SESSION_KEY);
+if (chaveSalva) {
+  tentarEntrar(chaveSalva);
+}
+</script>
+</body>
+</html>
